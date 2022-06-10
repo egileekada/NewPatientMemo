@@ -27,27 +27,13 @@ export default function DispenseDrugs() {
     const [name, setName] = React.useState('') 
     const [showFile, setShowFile] = React.useState(false)
     const [patientIndex, setPatientIndex] = React.useState('')
-    const [show, setShow] = React.useState([] as any)
- 
-
-    // React.useEffect(() => {
-    //     if(patientIndex === '') {
-    //         if(name === ''){
-    //             setShowFile(false)
-    //         }
-    //     }
-    // }, [name])
+    const [show, setShow] = React.useState([] as any) 
 
     const loginSchema = yup.object({ 
-        patient: yup.string().required('Required'),
-        drugId: yup.string().required('Required'),
+        // patient: yup.string().required('Required'),
+        // drugId: yup.string().required('Required'),
         qty: yup.string().required('Required'),   
-    })    
- 
-    // {
-    //     "patient":"624c1a715984283861a90ab5",
-    //     "drugId":"6286b828c794d4a5a81afea3",
-    //     "qty":10
+    })     
     
     // }
     // formik
