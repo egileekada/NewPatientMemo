@@ -60,7 +60,7 @@ export default function PharmacyTab() {
         }
     ]
 
-    const { isLoading, data } = useQuery('Alldrugs', () =>
+    const { isLoading, data, refetch } = useQuery('Alldrugs', () =>
         fetch(`https://hospital-memo-api.herokuapp.com/drugs`, {
             method: 'GET', // or 'PUT'
             headers: {
@@ -158,9 +158,10 @@ export default function PharmacyTab() {
 
             console.log('patient '+request.status)
             console.log('patient '+data)
-            if (request.status === 201) {    
+            if (request.status === 201) {        
+                refetch()            
                 setMessage('Drugs Added Successfully')
-                setModal(1)                   
+                setModal(1)   
                 const t1 = setTimeout(() => {  
                     setModal(0)     
                     setShowModal(false)
@@ -271,7 +272,7 @@ export default function PharmacyTab() {
                     <Tbody >
                         {!isLoading && (
                             <>
-                                {[...data].reverse().map((item: any, index: any)=> { 
+                                {[...data].map((item: any, index: any)=> { 
                                     if(item.category){
                                         let expired = new Date(item.expiryDate)
                                         let diff = new Date().getTime() - expired.getTime()
