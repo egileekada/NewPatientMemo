@@ -68,10 +68,10 @@ export default function ModifyDrugs(props: any) {
 
             console.log('patient '+request.status)
             console.log('patient '+data)
-            if (request.status === 201) {        
-                props.refetch()           
+            if (request.status === 201) {         
                 setMessage('Drugs Updated Successfully')
                 setModal(1)   
+                props.reload()   
                 const t1 = setTimeout(() => {  
                     setModal(0)     
                     props.close(false)

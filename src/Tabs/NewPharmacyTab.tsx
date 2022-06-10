@@ -473,7 +473,7 @@ export default function PharmacyTab() {
 
             {showModifyModal ? 
                 <div className='w-full flex items-center justify-center' >
-                    <ModifyDrugs value={drugInfo} refetch={refetch} close={setShowModifyModal} />
+                    <ModifyDrugs value={drugInfo} reload={refetch} close={setShowModifyModal} />
                     <div className='fixed flex-1 inset-0 bg-black opacity-25 ' />
                 </div>
             :null} 
