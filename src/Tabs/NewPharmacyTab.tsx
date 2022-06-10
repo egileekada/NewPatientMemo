@@ -1,8 +1,6 @@
 import { Input, InputGroup, InputLeftElement, Select, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-// import DateFormat from '../components/DateFormat'
-// import GetUserInfo from '../components/GetUserInfo'
+import { useNavigate } from 'react-router-dom' 
 import * as yup from 'yup'
 import { useFormik } from 'formik';  
 import { motion } from 'framer-motion'
@@ -12,53 +10,9 @@ import Modal from '../components/Modal'
 import { useQuery } from 'react-query'
 import FindPatient from '../components/dashboardComponent/FindPatient';
 import moment from 'moment';
+import ModifyDrugs from '../components/pharmacyComponent/component/ModifyDrugs'
 
-export default function PharmacyTab() {
-    
-    // const [name, setName] = React.useState('')
-
-    const dataall =[
-        {
-            name: 'Paracetamol',
-            category: 'Syrup',
-            dosage: 'Syrup',
-            purchase: '04, Jul 2022',
-            date: '02, Dec 2028',
-            stock: '344'
-        },
-        {
-            name: 'Paracetamol',
-            category: 'Syrup',
-            dosage: 'Syrup',
-            purchase: '04, Jul 2022',
-            date: '02, Dec 2028',
-            stock: '344'
-        },
-        {
-            name: 'Paracetamol',
-            category: 'Syrup',
-            dosage: 'Syrup',
-            purchase: '04, Jul 2022',
-            date: '02, Dec 2028',
-            stock: '344'
-        },
-        {
-            name: 'Paracetamol',
-            category: 'Syrup',
-            dosage: 'Syrup',
-            purchase: '04, Jul 2022',
-            date: '02, Dec 2028',
-            stock: '344'
-        },
-        {
-            name: 'Paracetamol',
-            category: 'Syrup',
-            dosage: 'Syrup',
-            purchase: '04, Jul 2022',
-            date: '02, Dec 2028',
-            stock: '344'
-        }
-    ]
+export default function PharmacyTab() { 
 
     const { isLoading, data, refetch } = useQuery('Alldrugs', () =>
         fetch(`https://hospital-memo-api.herokuapp.com/drugs`, {
@@ -72,22 +26,14 @@ export default function PharmacyTab() {
         )
     )   
 
-    const day = new Date()
-
-    // console.log(day.toISOString()) 
-
-    // console.log(day.toJSON()) 
-
-    // const date = '2023-10-19';
-    // const dateFormat = 'DD-MM-YYYY';
-    // const toDateFormat = moment(new Date(date)).format(dateFormat);
-    console.log(moment('2030-10-20').isAfter(day.toISOString(), 'year'));
+    const day = new Date() 
+    // console.log(moment('2030-10-20').isAfter(day.toISOString(), 'year'));
     
 
-    const [more, setMore] = React.useState(false)
-
-    // const [tab, setTab] = React.useState(0)
+    const [more, setMore] = React.useState(false) 
+    const [drugInfo, setDrugInfo] = React.useState({} as any) 
     const [showModal, setShowModal] = React.useState(false) 
+    const [showModifyModal, setShowModifyModal] = React.useState(false) 
     const [loading, setLoading] = React.useState(false);
     const navigate = useNavigate()
 
@@ -120,8 +66,7 @@ export default function PharmacyTab() {
         },
         validationSchema: loginSchema,
         onSubmit: () => {},
-    });    
- 
+    });   
 
     const submit = async () => {  
 
@@ -168,9 +113,7 @@ export default function PharmacyTab() {
                     setLoading(false)  
                     clearTimeout(t1);
                 }, 3000); 
-            }else {
-                // alert(data.message);
-                // console.log(data) 
+            }else { 
                 setMessage('Error Occurred')
                 setModal(2)           
                 const t1 = setTimeout(() => {  
@@ -180,11 +123,13 @@ export default function PharmacyTab() {
                 }, 2000); 
             } 
         }
-    }
-    
-    console.log(day)
-    
+    } 
 
+    const ClickHandler =(item: any)=> {
+        setDrugInfo(item)
+        setShowModifyModal(true)
+    }
+     
     return (
         <div className='w-full h-full relative flex flex-col' > 
             <Modal message={message} modal={modal} />
@@ -299,7 +244,7 @@ export default function PharmacyTab() {
                                                             </div>
                                                         </Td>
                                                         <Td>
-                                                            <button className='font-Ubuntu-Medium text-xs  bg-[#7123E2] mr-20 text-white rounded-lg h-10 px-3 ' >Modify</button>
+                                                            <button onClick={()=> ClickHandler(item)} className='font-Ubuntu-Medium text-xs  bg-[#7123E2] mr-20 text-white rounded-lg h-10 px-3 ' >Modify</button>
                                                         </Td>
                                                     </Tr> 
                                                 ) 
@@ -524,6 +469,15 @@ export default function PharmacyTab() {
                     <div className='fixed flex-1 inset-0 bg-black opacity-25 ' />
                 </div>
             :null} 
+
+
+            {showModifyModal ? 
+                <div className='w-full flex items-center justify-center' >
+                    <ModifyDrugs value={drugInfo} refetch={refetch} close={setShowModifyModal} />
+                    <div className='fixed flex-1 inset-0 bg-black opacity-25 ' />
+                </div>
+            :null} 
+
         </div>
     )
 } 
